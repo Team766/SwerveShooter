@@ -1,7 +1,7 @@
 package com.team766.ViSIONbase;
 
-public class CameraPlus {
-	import java.util.*;
+
+import java.util.*;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import com.team766.framework.AprilTagGeneralCheckedException;
@@ -79,4 +79,4 @@ public class CameraPlus extends PhotonCamera{
 
 	
 }
-}
+
