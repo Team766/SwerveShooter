@@ -2,16 +2,51 @@ package com.team766.ViSIONbase;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import com.team766.ViSIONbase.*;
 import com.team766.framework.*;
+import java.util.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+import java.io.IOException;
+import java.io.File;
 
 public class VisionForShooter {
 	
+	ArrayList<Double> distances = new ArrayList<Double>();
+	ArrayList<Double> powers = new ArrayList<Double>();
 
-	public VisionForShooter(){
+	//.dfa format must be in the following format
+	/*
+	* DISTANCEVALUE
+	* POWERVALUE
+	* DISTANCEVALUE
+	* POWERVALUE...
+	*/
+	String pathForData = "src/main/java/com/team766/ViSIONbase/ShooterValueData.dfa"
+	Path path = Paths.get(pathForData);
 
+	Scanner input = new Scanner(path);
+	public VisionForShooter(double differentiationPerDistance) throws AprilTagErrorCode{
+		
+		int currentLine = 1;
+
+		while(input.hasNextDouble()){
+			double val = input.nextDouble();
+
+			if(currentLine % 2 == 1){
+				if(currentLine > 1 && ( Math.abs(distances.get((distances.size() - 1)) - val)) != differentiationPerDistance) throw new AprilTagErrorCode ("The distance at line " + currentLine + " was not consistant with what the common difference is supposed to be.", 254);
+				distances.add(val);
+				currentLine++;
+			}else{
+				powers.add(val);
+				currentLine++;
+			}
+		}
+
+		if(distances.size() != powers.size()) throw new AprilTagErrorCode ("The number of arguments corresponding to powers and distances did not equal each other", 8);
 	}
 	
 	
-	public CameraPlus findCameraThatHas(PhotonTrackedTarget target) throws AprilTagErrorCode{
+	public static CameraPlus findCameraThatHas(PhotonTrackedTarget target) throws AprilTagErrorCode{
 
 		try {
 			if (StaticCameras.camera1.getTagIdOfBestTarget() == target.getFiducialId()) {
@@ -37,8 +72,8 @@ public class VisionForShooter {
 			
 		}
 		
-		// If none of the conditions are satisfied, return null
-		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + target.getFiducialId() + ".", 502);
+		// If none of the conditions are satisfied, return error code
+		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + target.getFiducialId() + ".", 766);
 		
 	}
 		
