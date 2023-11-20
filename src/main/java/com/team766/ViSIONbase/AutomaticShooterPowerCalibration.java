@@ -1,11 +1,19 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 public class AutomaticShooterPowerCalibration extends JFrame {
     private int tagId;
     private boolean ballWentIn;
 
+    private ArrayList<Double> powersTried = new ArrayList<Double>();
+    private ArrayList<Boolean> wasTooLong = new ArrayList<Boolean>();
+
+    private ArrayList<Double> distancesWork = new ArrayList<Double>();
+    private ArrayList<Double> powersWork = new ArrayList<Boolean>();
+
+    
     public AutomaticShooterPowerCalibration() {
         setTitle("Automatic Shooter Power Calibration");
         setSize(400, 200);
@@ -29,9 +37,42 @@ public class AutomaticShooterPowerCalibration extends JFrame {
 
         readyButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) throws AprilTagErrorCode {
                 // Perform actions when Ready button is clicked
+
                 JOptionPane.showMessageDialog(null, "Ball launcher is ready.");
+
+
+                CameraPlus cameraToUse;
+                try{
+                    cameraToUse = VisionForShooter.findCameraThatHas(tagId);
+                } catch (Exception e){
+                    throw e;
+                }
+
+                Transform3d robotToTagId; // TODO: import this
+                try{
+                    robotToTagId = cameraToUse.getRobotToBestTag(); // we know this tag will have correct ID, so it will be annoying with the checked exception
+                } catch (Exception e){
+                    //this should never happen
+                    throw new AprilTagErrorCode("This error should never happen. If you are seeing this, something is messed up with the hardware and network settings (ping is probably really high).", 9998);
+                }
+
+                double robotXtoTag = robotToTagId.getX();
+                double robotYtoTag = robotToTagId.getY();
+                double robotXtoTag = robotToTagId.getZ();
+
+                //TODO: Talk to ryan about what is X Y and Z according to this. Like which dirrection it is facing.
+                //TODO: Find distance from target
+                //TODO: Use lookup table to find value. If there are no values in there currently, use Math.random() for power!!!!
+                double power = 0;
+                if(powersWork.size() == 0){
+                    power = Math.random();
+                }else{
+                    //Find a value near the current distance in the distancesWork array
+                    //Then compute a new value for power according to what works
+                }
+
                 ballInButton.setEnabled(true);
                 ballOutButton.setEnabled(true);
             }
@@ -42,7 +83,14 @@ public class AutomaticShooterPowerCalibration extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ballWentIn = true;
                 // Store values or perform other actions when ball goes in
+
+
+                //Speed = getSpeed()
+                //Distance = getDistance()
+
                 JOptionPane.showMessageDialog(null, "Ball went in. Values stored.");
+
+                
                 reset();
             }
         });
@@ -62,9 +110,14 @@ public class AutomaticShooterPowerCalibration extends JFrame {
 
                 if (option == JOptionPane.YES_OPTION) {
                     // Handle too short
+
+                    // powersTried.add(getPower());
+                    wasTooLong.add(false);
                     JOptionPane.showMessageDialog(null, "Ball went too short.");
                 } else {
                     // Handle too long
+                    // powersTried.add(getPower());
+                    wasTooLong.add(true);
                     JOptionPane.showMessageDialog(null, "Ball went too long.");
                 }
                 reset();
@@ -89,3 +142,5 @@ public class AutomaticShooterPowerCalibration extends JFrame {
         ballInButton.setEnabled(false);
         ballOutButton.setEnabled(false);
     }
+
+}

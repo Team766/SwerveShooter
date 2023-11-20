@@ -76,6 +76,38 @@ public class VisionForShooter {
 		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + target.getFiducialId() + ".", 766);
 		
 	}
+
+		// overload
+		public static CameraPlus findCameraThatHas(int targetID) throws AprilTagErrorCode{
+
+		try {
+			if (StaticCameras.camera1.getTagIdOfBestTarget() == targetID) {
+				return StaticCameras.camera1;
+			}
+		} catch (Exception e1) {
+			
+		}
+		
+		try {
+			if (StaticCameras.camera2.getTagIdOfBestTarget() == targetID) {
+				return StaticCameras.camera2;
+			}
+		} catch (Exception e2) {
+			
+		}
+		
+		try {
+			if (StaticCameras.camera3.getTagIdOfBestTarget() == targetID) {
+				return StaticCameras.camera3;
+			}
+		} catch (Exception e3) {
+			
+		}
+		
+		// If none of the conditions are satisfied, return error code
+		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + target.getFiducialId() + ".", 766);
+		
+	}
 		
 }
 

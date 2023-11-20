@@ -24,7 +24,7 @@ public class CameraPlus extends PhotonCamera{
 	 * @return the Transform3d object of the robot relative to the target
 	 * @throws ApriltagGeneralCheckedException the checked exception from before if there were any errors in the getter methods
 	 */
-	public Transform3d getTransform3dToTag() throws AprilTagGeneralCheckedException{
+	public Transform3d getRobotToBestTag() throws AprilTagGeneralCheckedException{
 		try{
 			return getBestTargetTransform3d(getBestTrackedTarget());
 		} catch (AprilTagGeneralCheckedException e){
