@@ -23,8 +23,8 @@ public class AutomaticShooterPowerCalibration {
 
 
     
-    public AutomaticShooterPowerCalibration() {
-
+    public AutomaticShooterPowerCalibration(int tagId) {
+        this.tagId = tagId;
     }
 
     public void shootAndCalculate() {
@@ -168,7 +168,7 @@ public class AutomaticShooterPowerCalibration {
         }
     }
 
-    private void reset() {
+    public void reset() {
         //finish if there are more than 7 values that work
         if (distancesWork.size() > 7){
             try {
