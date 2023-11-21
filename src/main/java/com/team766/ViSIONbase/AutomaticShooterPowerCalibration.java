@@ -76,10 +76,8 @@ public class AutomaticShooterPowerCalibration extends JFrame {
                 double robotZtoTag = robotToTagId.getZ();
 
                 //TODO: Talk to ryan about what is X Y and Z according to this. Like which dirrection it is facing.
-                //TODO: Find distance from target
-                //TODO: Use lookup table to find value. If there are no values in there currently, use Math.random() for power!!!!
 
-                double distance = 0; //TODO: Find distance from target
+                double distance = 0; //TODO: Use pythagorean theorem to find distance from target
 
                 latestDistance = distance;
 
@@ -161,7 +159,7 @@ public class AutomaticShooterPowerCalibration extends JFrame {
 
                 }
                 powersTried.add(power);
-                Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time
+                Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
                 
                 ballInButton.setEnabled(true);
                 ballOutButton.setEnabled(true);
