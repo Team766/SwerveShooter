@@ -2,6 +2,7 @@ package com.team766.ViSIONbase;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import com.team766.ViSIONbase.*;
 import com.team766.framework.*;
+import edu.wpi.first.wpilibj.Filesystem;
 import java.util.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +21,7 @@ public class VisionForShooter {
 	* DISTANCEVALUE
 	* POWERVALUE...
 	*/
-	String pathForData = "src/main/java/com/team766/ViSIONbase/ShooterValueData.dfa";
+	String pathForData = Filesystem.getDeployDirectory().getPath() + "/CurrentValueData.dfa";
 	Path path = Paths.get(pathForData);
 
 	Scanner input;
