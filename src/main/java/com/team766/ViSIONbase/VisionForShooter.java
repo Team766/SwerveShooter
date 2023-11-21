@@ -63,19 +63,18 @@ public class VisionForShooter {
 		for(int i = 0; i < distances.size(); i++){
 			if(Math.abs(distances.get(i) - distance) < 0.05){ // TODO: is this buffer okay?
 				return powers.get(i);
-			} else{
-                for(int j = 1; i < distances.size(); i++){
-                    if(distances.get(j) < closestOnMin && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMin - distance)){
-                        closestOnMin = distances.get(j);
-                        indexMin = j;
-                    }
-                    if(distances.get(j) > closestOnMax && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMax - distance)){
-                        closestOnMax = distances.get(j);
-                        indexMax = j;
-                    }
-				}
-			}
+			} 
+		}
 
+		for(int j = 1; j < distances.size(); j++){
+			if(distances.get(j) < closestOnMin && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMin - distance)){
+				closestOnMin = distances.get(j);
+				indexMin = j;
+			}
+			if(distances.get(j) > closestOnMax && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMax - distance)){
+				closestOnMax = distances.get(j);
+				indexMax = j;
+			}
 		}
 
 		double difference = closestOnMax - closestOnMin;

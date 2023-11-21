@@ -47,7 +47,7 @@ public class AutomaticShooterPowerCalibration {
 
         double robotXtoTag = robotToTagId.getX();
         double robotYtoTag = robotToTagId.getY();
-        
+
         double distance = Math.hypot(robotXtoTag, robotYtoTag);
 
         latestDistance = distance;
