@@ -34,7 +34,7 @@ public class VisionForShooter {
 	}
 
 	// I wonder if this is needed
-	public VisionForShooter(double differentiationPerDistance) throws AprilTagErrorCode{
+	public VisionForShooter() throws AprilTagErrorCode{
 		
 		int currentLine = 1;
 
@@ -42,7 +42,6 @@ public class VisionForShooter {
 			double val = input.nextDouble();
 
 			if(currentLine % 2 == 1){
-				if(currentLine > 1 && ( Math.abs(distances.get((distances.size() - 1)) - val)) != differentiationPerDistance) throw new AprilTagErrorCode ("The distance at line " + currentLine + " was not consistant with what the common difference is supposed to be.", 254);
 				distances.add(val);
 				currentLine++;
 			}else{
@@ -119,7 +118,7 @@ public class VisionForShooter {
 		
 	}
 
-		// overload
+		// @overload
 		public static CameraPlus findCameraThatHas(int targetID) throws AprilTagErrorCode{
 
 		try {
