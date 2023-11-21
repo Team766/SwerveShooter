@@ -3,11 +3,13 @@ package com.team766.ViSIONbase;
 import com.team766.framework.AprilTagErrorCode;
 import com.team766.robot.Robot;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.Filesystem;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 
 public class AutomaticShooterPowerCalibration {
     private int tagId;
@@ -180,8 +182,8 @@ public class AutomaticShooterPowerCalibration {
         addDataToFile(createUniqueFileNameAndFile());
     }
 
-    private void addDataToFile(File file) throws IOException {
-        String filePath = file.getPath();
+    private void addDataToFile(String file) throws IOException {
+        String filePath = file;
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -195,20 +197,25 @@ public class AutomaticShooterPowerCalibration {
         }
     }
 
-    private File createUniqueFileNameAndFile() throws IOException {
-        String fileName = "src/main/java/com/team766/ViSIONbase/ShooterValueDataGenerated.dfa";
+    // @returns the file name of the created ffile
+    private String createUniqueFileNameAndFile() throws IOException {
+        
+        String fileName = Filesystem.getDeployDirectory().getPath() + "/ShooterValueDataGenerated.dfa";
         File file = new File(fileName);
         int i = 1;
         while (file.exists()) {
-            fileName = "src/main/java/com/team766/ViSIONbase/ShooterValueDataGenerated" + i + ".dfa";
+            fileName = Filesystem.getDeployDirectory().getPath() + "/ShooterValueDataGenerated" + i + ".dfa";
             file = new File(fileName);
             i++;
         }
+        
         // create file
         File newFile = new File(fileName);
         newFile.createNewFile();
 
-        return newFile;
+        String toReturn = Filesystem.getDeployDirectory().getPath() + fileName;
+
+        return toReturn;
         
     }
 
