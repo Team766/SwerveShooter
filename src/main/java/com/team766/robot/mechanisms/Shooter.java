@@ -11,7 +11,7 @@ public class Shooter extends Mechanism {
 	private MotorController leftShooterMotor;
 	private MotorController rightShooterMotor;
 
-	
+	private double lastSpeed = 0;
 	public Shooter(){
 		topShooterMotor = RobotProvider.instance.getMotor("shooter.topMotor");
 
@@ -35,6 +35,18 @@ public class Shooter extends Mechanism {
 
 		leftShooterMotor.set(speedSides);
 		rightShooterMotor.set(-speedSides);
+	}
+
+	public void shoot(double speed){
+		topShooterMotor.set(speed);
+		lastSpeed = speed;
+		//TODO: Check to see if this is the correct direction
+		leftShooterMotor.set(1);
+		rightShooterMotor.set(-1);
+	}
+
+	public double getLastSpeed(){
+		return lastSpeed;
 	}
 }
 
