@@ -47,11 +47,8 @@ public class AutomaticShooterPowerCalibration {
 
         double robotXtoTag = robotToTagId.getX();
         double robotYtoTag = robotToTagId.getY();
-        double robotZtoTag = robotToTagId.getZ();
-
-        //TODO: Talk to ryan about what is X Y and Z according to this. Like which dirrection it is facing.
-
-        double distance = 0; //TODO: Use pythagorean theorem to find distance from target
+        
+        double distance = Math.hypot(robotXtoTag, robotYtoTag);
 
         latestDistance = distance;
 
