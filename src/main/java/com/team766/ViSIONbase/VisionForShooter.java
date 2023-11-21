@@ -5,7 +5,6 @@ import com.team766.framework.*;
 import java.util.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 import java.io.IOException;
 import java.io.File;
 
@@ -34,6 +33,7 @@ public class VisionForShooter {
 		}
 	}
 
+	// I wonder if this is needed
 	public VisionForShooter(double differentiationPerDistance) throws AprilTagErrorCode{
 		
 		int currentLine = 1;
@@ -52,6 +52,39 @@ public class VisionForShooter {
 		}
 
 		if(distances.size() != powers.size()) throw new AprilTagErrorCode ("The number of arguments corresponding to powers and distances did not equal each other", 8);
+	}
+
+	public double calculatePowerForDistance(double distance) throws AprilTagErrorCode{
+		double closestOnMin = distances.get(0);
+        double closestOnMax = distances.get(0);
+
+        int indexMin = 0;
+        int indexMax = 0;
+
+		for(int i = 0; i < distances.size(); i++){
+			if(Math.abs(distances.get(i) - distance) < 0.05){ // TODO: is this buffer okay?
+				return powers.get(i);
+			} else{
+                for(int j = 1; i < distances.size(); i++){
+                    if(distances.get(j) < closestOnMin && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMin - distance)){
+                        closestOnMin = distances.get(j);
+                        indexMin = j;
+                    }
+                    if(distances.get(j) > closestOnMax && Math.abs(distances.get(j) - distance) < Math.abs(closestOnMax - distance)){
+                        closestOnMax = distances.get(j);
+                        indexMax = j;
+                    }
+				}
+			}
+
+		}
+
+		double difference = closestOnMax - closestOnMin;
+        double powerDifference = powers.get(indexMax) - powers.get(indexMin);
+
+        double differenceFromMin = distance - closestOnMin;
+
+        return (powers.get(indexMin) + (differenceFromMin / difference) * powerDifference);
 	}
 	
 	
