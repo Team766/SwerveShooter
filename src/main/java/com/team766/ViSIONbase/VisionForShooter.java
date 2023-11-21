@@ -21,10 +21,19 @@ public class VisionForShooter {
 	* DISTANCEVALUE
 	* POWERVALUE...
 	*/
-	String pathForData = "src/main/java/com/team766/ViSIONbase/ShooterValueData.dfa"
+	String pathForData = "src/main/java/com/team766/ViSIONbase/ShooterValueData.dfa";
 	Path path = Paths.get(pathForData);
 
-	Scanner input = new Scanner(path);
+	Scanner input;
+
+	{
+		try {
+			input = new Scanner(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VisionForShooter(double differentiationPerDistance) throws AprilTagErrorCode{
 		
 		int currentLine = 1;
@@ -105,7 +114,7 @@ public class VisionForShooter {
 		}
 		
 		// If none of the conditions are satisfied, return error code
-		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + target.getFiducialId() + ".", 766);
+		throw new AprilTagErrorCode("None of the cameras picked the AprilTag with Fiducial ID " + targetID + ".", 766);
 		
 	}
 		

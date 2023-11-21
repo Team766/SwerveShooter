@@ -1,4 +1,8 @@
+package com.team766.ViSIONbase;
+
 import javax.swing.*;
+import com.team766.framework.AprilTagErrorCode;
+import edu.wpi.first.math.geometry.Transform3d;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -11,7 +15,12 @@ public class AutomaticShooterPowerCalibration extends JFrame {
     private ArrayList<Boolean> wasTooLong = new ArrayList<Boolean>();
 
     private ArrayList<Double> distancesWork = new ArrayList<Double>();
-    private ArrayList<Double> powersWork = new ArrayList<Boolean>();
+    private ArrayList<Boolean> powersWork = new ArrayList<Boolean>();
+
+    JButton startButton = new JButton("Start");
+    JButton readyButton = new JButton("Ready");
+    JButton ballInButton = new JButton("Ball Went In");
+    JButton ballOutButton = new JButton("Ball Went Out");
 
     
     public AutomaticShooterPowerCalibration() {
@@ -21,10 +30,7 @@ public class AutomaticShooterPowerCalibration extends JFrame {
 
         JPanel panel = new JPanel();
 
-        JButton startButton = new JButton("Start");
-        JButton readyButton = new JButton("Ready");
-        JButton ballInButton = new JButton("Ball Went In");
-        JButton ballOutButton = new JButton("Ball Went Out");
+
 
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -37,30 +43,30 @@ public class AutomaticShooterPowerCalibration extends JFrame {
 
         readyButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) throws AprilTagErrorCode {
+            public void actionPerformed(ActionEvent e) {
                 // Perform actions when Ready button is clicked
 
-                JOptionPane.showMessageDialog(null, "Ball launcher is ready.");
+                JOptionPane.showMessageDialog(null, "Ball launcher is ready. Launching ball.");
 
 
-                CameraPlus cameraToUse;
+                CameraPlus cameraToUse = null; // for now
                 try{
                     cameraToUse = VisionForShooter.findCameraThatHas(tagId);
-                } catch (Exception e){
-                    throw e;
+                } catch (AprilTagErrorCode t){
+                    return; // lmao
                 }
 
-                Transform3d robotToTagId; // TODO: import this
+                Transform3d robotToTagId = null; // for now
                 try{
                     robotToTagId = cameraToUse.getRobotToBestTag(); // we know this tag will have correct ID, so it will be annoying with the checked exception
-                } catch (Exception e){
+                } catch (Exception q){
                     //this should never happen
-                    throw new AprilTagErrorCode("This error should never happen. If you are seeing this, something is messed up with the hardware and network settings (ping is probably really high).", 9998);
+                    //throw new AprilTagErrorCode("This error should never happen. If you are seeing this, something is messed up with the hardware and network settings (ping is probably really high).", 100);
                 }
 
                 double robotXtoTag = robotToTagId.getX();
                 double robotYtoTag = robotToTagId.getY();
-                double robotXtoTag = robotToTagId.getZ();
+                double robotZtoTag = robotToTagId.getZ();
 
                 //TODO: Talk to ryan about what is X Y and Z according to this. Like which dirrection it is facing.
                 //TODO: Find distance from target
