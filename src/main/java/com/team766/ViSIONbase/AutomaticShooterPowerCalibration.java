@@ -213,9 +213,7 @@ public class AutomaticShooterPowerCalibration {
         File newFile = new File(fileName);
         newFile.createNewFile();
 
-        String toReturn = Filesystem.getDeployDirectory().getPath() + fileName;
-
-        return toReturn;
+        return fileName;
         
     }
 
