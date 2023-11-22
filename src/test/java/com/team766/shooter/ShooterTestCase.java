@@ -1,4 +1,4 @@
-package com.team766;
+package com.team766.shooter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,10 +11,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.team766.ViSIONbase.AutomaticShooterPowerCalibration;
-import com.team766.config.ConfigFileReader;
 import com.team766.framework.Scheduler;
 import com.team766.hal.RobotProvider;
-import com.team766.hal.mock.MockJoystick;
 import com.team766.hal.mock.TestRobotProvider;
 
 import edu.wpi.first.wpilibj.Filesystem;
@@ -27,8 +25,8 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 	AutomaticShooterPowerCalibration calibration;
 	Scanner input;
 
-	@Rule
-  	public ExpectedException exception = ExpectedException.none();
+	//@Rule
+  	//public ExpectedException exception = ExpectedException.none();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -103,7 +101,7 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 			assertEquals("Distances tested need to equal each other", distancesToTest.get(i), distance);
 
 			double power = input.nextDouble();
-
+			System.out.println(power);
 			assertEquals("Powers tested should be within a reasonable difference of what actually works", powersThatWork.get(i+1), power, 0.03); // see look how generoys
 		}
 		

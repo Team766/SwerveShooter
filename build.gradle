@@ -104,6 +104,7 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+    testLogging.showStandardStreams = true
 }
 
 // Simulation configuration (e.g. environment variables).

@@ -49,7 +49,7 @@ public class Odometry extends LoggingBase {
 	 * @param rateLimiterTime How often odometry should run.
 	 */
 	public Odometry(MotorController[] motors, CANCoder[] CANCoders, Point[] wheelLocations, double wheelCircumference, double gearRatio, int encoderToRevolutionConstant, double rateLimiterTime) {
-		loggerCategory = Category.ODOMETRY;
+		//loggerCategory = Category.ODOMETRY;
 
 		odometryLimiter = new RateLimiter(rateLimiterTime);
 		motorList = motors;

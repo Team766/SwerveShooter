@@ -20,7 +20,7 @@ public class Gyro extends Mechanism {
 	double[] gyroArray = new double[3];
 	private RateLimiter l_loggingRate = new RateLimiter(0.05);
 	public Gyro() {
-		loggerCategory = Category.GYRO;
+		//loggerCategory = Category.GYRO;
 	}
 	public void resetGyro(){
 		g_gyro.setYaw(0);
