@@ -1,5 +1,6 @@
 package com.team766.shooter;
 
+import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,19 +14,20 @@ import com.team766.hal.mock.TestRobotProvider;
 
 import edu.wpi.first.wpilibj.Filesystem;
 
-public abstract class ShooterTestCase extends junit.framework.TestCase {
 
-	ArrayList<Double> distancesToTest = new ArrayList<Double>();
-	ArrayList<Double> powersThatWork = new ArrayList<Double>();
+public class ShooterTestCase{
 
-	AutomaticShooterPowerCalibration calibration;
+	static ArrayList<Double> distancesToTest = new ArrayList<Double>();
+	static ArrayList<Double> powersThatWork = new ArrayList<Double>();
+
+	static AutomaticShooterPowerCalibration calibration;
 	Scanner input;
 
 	//@Rule
   	//public ExpectedException exception = ExpectedException.none();
 	
 	@BeforeAll
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 
 		
 		calibration = new AutomaticShooterPowerCalibration(3);
@@ -94,7 +96,7 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 		for(int i = 0; i < ((distancesToTest.size() * 2) - 1); i+=2){
 			double distance = input.nextDouble();
 
-			assertEquals("Distances tested need to equal each other", distancesToTest.get(i), distance);
+			assertEquals("Distances tested need to equal each other", (double)distancesToTest.get(i), distance);
 
 			double power = input.nextDouble();
 			System.out.println(power);

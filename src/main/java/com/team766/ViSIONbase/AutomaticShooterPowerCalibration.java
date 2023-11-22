@@ -24,6 +24,7 @@ public class AutomaticShooterPowerCalibration {
     private double latestDistance = -1;
     private double lastDistance = 0;
 
+    private boolean first = true;
 
     
     public AutomaticShooterPowerCalibration(int tagId) {
@@ -58,9 +59,8 @@ public class AutomaticShooterPowerCalibration {
         double power = 0;
 
         if(powersTried.size() == 0){
-            if(powersWork.size() <= 1){
                 power = Math.random();
-            }else{
+            
                 //Find a value near the current distance in the distancesWork array
                 //Then compute a new value for power according to what works
                 double closestOnMin = distancesWork.get(0);
@@ -86,7 +86,7 @@ public class AutomaticShooterPowerCalibration {
                 double differenceFromMin = distance - closestOnMin;
 
                 power = powersWork.get(indexMin) + (differenceFromMin / difference) * powerDifference;
-            }
+            
         } else {
             if(powersTried.size() == 1){
                 if(wasTooLong.get(0)){
@@ -149,13 +149,8 @@ public class AutomaticShooterPowerCalibration {
 
         double power = 0;
 
-        if(powersTried.size() == 0){
-            if(powersWork.size() <= 1){
-                power = Math.random();
-            }else{
-                //Find a value near the current distance in the distancesWork array
-                //Then compute a new value for power according to what works
-                double closestOnMin = distancesWork.get(0);
+        if(first && distancesWork.size() > 2){
+            double closestOnMin = distancesWork.get(0);
                 double closestOnMax = distancesWork.get(0);
 
                 int indexMin = 0;
@@ -178,7 +173,13 @@ public class AutomaticShooterPowerCalibration {
                 double differenceFromMin = distance - closestOnMin;
 
                 power = powersWork.get(indexMin) + (differenceFromMin / difference) * powerDifference;
-            }
+
+                powersTried.add(power);
+                return power;
+        }
+
+        if(powersTried.size() == 0){
+            power = Math.random();
         } else {
             if(powersTried.size() == 1){
                 if(wasTooLong.get(0)){
@@ -225,7 +226,7 @@ public class AutomaticShooterPowerCalibration {
 
         }
         powersTried.add(power);
-        Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
+        // commented for tests Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
 
 
         return power;
