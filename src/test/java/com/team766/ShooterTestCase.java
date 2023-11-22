@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.team766.ViSIONbase.AutomaticShooterPowerCalibration;
 import com.team766.config.ConfigFileReader;
 import com.team766.framework.Scheduler;
@@ -21,8 +26,12 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 
 	AutomaticShooterPowerCalibration calibration;
 	Scanner input;
-	@Override
-	protected void setUp() throws Exception {
+
+	@Rule
+  	public ExpectedException exception = ExpectedException.none();
+	
+	@Before
+	public void setUp() throws Exception {
 
 		
 		calibration = new AutomaticShooterPowerCalibration(3);
@@ -45,7 +54,8 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 		Scheduler.getInstance().reset();
 	}
 
-	protected void go() {
+	
+	public void go() {
 		for(int i = 0; i<distancesToTest.size(); i++){
 			double power = calibration.shootAndCalculate(distancesToTest.get(i));
 
@@ -72,32 +82,30 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 		return calibration.thisHappenedWithShot(a, b);
 	}
 
-	protected boolean isCorrect(){
+	@Test
+	protected void isCorrect(){
 		// since this is the first test, it should be this as its file name.
 
+		go();
 
 		String fileName = Filesystem.getDeployDirectory().getPath() + "/ShooterValueDataGenerated.dfa";
         File file = new File(fileName);
-
+		
 		try{
 			input = new Scanner(file);
 		} catch (FileNotFoundException e){
-			return false;
+			fail("File was not created with correct name");
 		}
 
-		for(int i = 0; i < ((distancesToTest.size() * 2) - 1); i++){
+		for(int i = 0; i < ((distancesToTest.size() * 2) - 1); i+=2){
 			double distance = input.nextDouble();
-			if(distance != distancesToTest.get(i)){
-				return false;
-			}
+
+			assertEquals("Distances tested need to equal each other", distancesToTest.get(i), distance);
 
 			double power = input.nextDouble();
-			if(Math.abs(power - powersThatWork.get(i + 1)) > 0.03){
-				return false;
-			}
-		}
 
-		return true;
+			assertEquals("Powers tested should be within a reasonable difference of what actually works", powersThatWork.get(i+1), power, 0.03); // see look how generoys
+		}
 		
 	}
 
