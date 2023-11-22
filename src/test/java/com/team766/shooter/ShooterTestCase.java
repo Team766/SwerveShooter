@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.*;
 
 import com.team766.ViSIONbase.AutomaticShooterPowerCalibration;
 import com.team766.framework.Scheduler;
@@ -28,7 +24,7 @@ public abstract class ShooterTestCase extends junit.framework.TestCase {
 	//@Rule
   	//public ExpectedException exception = ExpectedException.none();
 	
-	@Before
+	@BeforeAll
 	public void setUp() throws Exception {
 
 		
