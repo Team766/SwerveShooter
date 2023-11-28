@@ -16,7 +16,7 @@ import com.team766.hal.mock.TestRobotProvider;
 import edu.wpi.first.wpilibj.Filesystem;
 
 
-public class ShooterTestCase{
+public class ShooterTestCase {
 
 	static ArrayList<Double> distancesToTest = new ArrayList<Double>();
 	static ArrayList<Double> powersThatWork = new ArrayList<Double>();
@@ -53,7 +53,8 @@ public class ShooterTestCase{
 
 	
 	public void go() {
-		for(int i = 0; i<distancesToTest.size(); i++){
+
+		for(int i = 0; i < distancesToTest.size(); i++){
 			double power = calibration.shootAndCalculate(distancesToTest.get(i).doubleValue());
 
 			//generous error margin
@@ -62,14 +63,14 @@ public class ShooterTestCase{
 			}else{
 				double lastPower = power;
 
-				while(Math.abs(lastPower - powersThatWork.get(i).doubleValue()) < 0.03){
+				while(Math.abs(lastPower - powersThatWork.get(i).doubleValue()) > 0.03){
 					if(lastPower > powersThatWork.get(i).doubleValue()){
 						lastPower = goAgain(false, true);
 					}else{
 						lastPower = goAgain(false, false);
 					}
 				}
-				
+				calibration.thisHappenedWithShot(true, false);
 			}
 		}
 		calibration.reset();
@@ -99,7 +100,7 @@ public class ShooterTestCase{
 
 		for(int i = 0; i < distancesToTest.size(); i++){
 
-			assertEquals("Distances tested need to equal each other", (double)distancesToTest.get(i), (double)dist.get(i));
+			assertEquals("Distances tested need to equal each other", (double)distancesToTest.get(i), (double)dist.get(i),0);
 			assertEquals("Powers tested should be within a reasonable difference of what actually works", (double)powersThatWork.get(i), (double)pow.get(i), 0.03); // see look how generoys
 		}
 		
