@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.nio.file.Path;
+import com.team766.logging.Category;
 
 public class AutomaticShooterPowerCalibration {
+    
     private int tagId;
     private boolean ballWentIn;
 
@@ -175,6 +177,7 @@ public class AutomaticShooterPowerCalibration {
                 power = powersWork.get(indexMin) + (differenceFromMin / difference) * powerDifference;
 
                 powersTried.add(power);
+                first = false;
                 return power;
         }
 
@@ -182,12 +185,17 @@ public class AutomaticShooterPowerCalibration {
             power = Math.random();
         } else {
             if(powersTried.size() == 1){
-                if(wasTooLong.get(0)){
+                boolean hee = true;
+                if(wasTooLong.size() == 0){
+                    power = Math.random();
+                    hee = false;
+                } else if(wasTooLong.get(0) && hee){
                     power = powersTried.get(0) - 0.1;
                 }else{
                     power = powersTried.get(0) + 0.1;
                 }
             } else if (powersTried.size() == 2){
+                
                 if(wasTooLong.get(0) && wasTooLong.get(1)){
                     power = powersTried.get(0) - 0.1;
                 }else if(wasTooLong.get(0) && !wasTooLong.get(1)){
@@ -250,16 +258,17 @@ public class AutomaticShooterPowerCalibration {
 
             powersTried.clear();
             wasTooLong.clear();
+            first = true;
             return -1;
         } else {
             ballWentIn = false;
 
             if (!wasLong) {
                 // Handle too short
-                wasTooLong.add(false);
+                wasTooLong.add(Boolean.FALSE);
             } else {
                 // Handle too long
-                wasTooLong.add(true);
+                wasTooLong.add(Boolean.TRUE);
             }
             
             return shootAndCalculate(lastDistance);
@@ -316,6 +325,15 @@ public class AutomaticShooterPowerCalibration {
 
         return fileName;
         
+    }
+
+
+    public ArrayList<Double> getDistances(){
+        return distancesWork;
+    }
+
+    public ArrayList<Double> getPowers(){
+        return powersWork;
     }
 
 }

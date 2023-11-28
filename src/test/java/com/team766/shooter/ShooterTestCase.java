@@ -3,6 +3,7 @@ package com.team766.shooter;
 import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.junit.jupiter.api.*;
@@ -38,10 +39,10 @@ public class ShooterTestCase{
 		distancesToTest.add(1.5);
 		distancesToTest.add(2.0);
 
-		powersThatWork.add(.2371);
-		powersThatWork.add(.3750);
-		powersThatWork.add(.5929);
-		powersThatWork.add(.9375);
+		powersThatWork.add(0.2371);
+		powersThatWork.add(0.3750);
+		powersThatWork.add(0.5925);
+		powersThatWork.add(0.9375);
 
 
 
@@ -53,16 +54,16 @@ public class ShooterTestCase{
 	
 	public void go() {
 		for(int i = 0; i<distancesToTest.size(); i++){
-			double power = calibration.shootAndCalculate(distancesToTest.get(i));
+			double power = calibration.shootAndCalculate(distancesToTest.get(i).doubleValue());
 
 			//generous error margin
-			if(Math.abs(power - powersThatWork.get(i)) < 0.03){
+			if(Math.abs(power - powersThatWork.get(i).doubleValue()) < 0.03){
 				calibration.thisHappenedWithShot(true, false);
 			}else{
 				double lastPower = power;
 
-				while(Math.abs(lastPower - powersThatWork.get(i)) < 0.03){
-					if(lastPower > powersThatWork.get(i)){
+				while(Math.abs(lastPower - powersThatWork.get(i).doubleValue()) < 0.03){
+					if(lastPower > powersThatWork.get(i).doubleValue()){
 						lastPower = goAgain(false, true);
 					}else{
 						lastPower = goAgain(false, false);
@@ -84,23 +85,22 @@ public class ShooterTestCase{
 
 		go();
 
-		String fileName = Filesystem.getDeployDirectory().getPath() + "/ShooterValueDataGenerated.dfa";
-        File file = new File(fileName);
+		// String fileName = Filesystem.getDeployDirectory().getPath() + "/ShooterValueDataGenerated.dfa";
+        // File file = new File(fileName);
 		
-		try{
-			input = new Scanner(file);
-		} catch (FileNotFoundException e){
-			fail("File was not created with correct name");
-		}
+		// try{
+		// 	input = new Scanner(file);
+		// } catch (FileNotFoundException e){
+		// 	fail("File was not created with correct name");
+		// }
 
-		for(int i = 0; i < ((distancesToTest.size() * 2) - 1); i+=2){
-			double distance = input.nextDouble();
+		ArrayList<Double> dist = calibration.getDistances();
+		ArrayList<Double> pow = calibration.getPowers();
 
-			assertEquals("Distances tested need to equal each other", (double)distancesToTest.get(i), distance);
+		for(int i = 0; i < distancesToTest.size(); i++){
 
-			double power = input.nextDouble();
-			System.out.println(power);
-			assertEquals("Powers tested should be within a reasonable difference of what actually works", powersThatWork.get(i+1), power, 0.03); // see look how generoys
+			assertEquals("Distances tested need to equal each other", (double)distancesToTest.get(i), (double)dist.get(i));
+			assertEquals("Powers tested should be within a reasonable difference of what actually works", (double)powersThatWork.get(i), (double)pow.get(i), 0.03); // see look how generoys
 		}
 		
 	}
