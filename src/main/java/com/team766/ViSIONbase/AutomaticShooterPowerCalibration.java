@@ -58,14 +58,11 @@ public class AutomaticShooterPowerCalibration {
 
         latestDistance = distance;
 
+
         double power = 0;
 
-        if(powersTried.size() == 0){
-                power = Math.random();
-            
-                //Find a value near the current distance in the distancesWork array
-                //Then compute a new value for power according to what works
-                double closestOnMin = distancesWork.get(0);
+        if(first && distancesWork.size() > 2){
+            double closestOnMin = distancesWork.get(0);
                 double closestOnMax = distancesWork.get(0);
 
                 int indexMin = 0;
@@ -88,15 +85,27 @@ public class AutomaticShooterPowerCalibration {
                 double differenceFromMin = distance - closestOnMin;
 
                 power = powersWork.get(indexMin) + (differenceFromMin / difference) * powerDifference;
-            
+
+                powersTried.add(power);
+                first = false;
+                return power;
+        }
+
+        if(powersTried.size() == 0){
+            power = Math.random();
         } else {
             if(powersTried.size() == 1){
-                if(wasTooLong.get(0)){
+                boolean hee = true;
+                if(wasTooLong.size() == 0){
+                    power = Math.random();
+                    hee = false;
+                } else if(wasTooLong.get(0) && hee){
                     power = powersTried.get(0) - 0.1;
                 }else{
                     power = powersTried.get(0) + 0.1;
                 }
             } else if (powersTried.size() == 2){
+                
                 if(wasTooLong.get(0) && wasTooLong.get(1)){
                     power = powersTried.get(0) - 0.1;
                 }else if(wasTooLong.get(0) && !wasTooLong.get(1)){
@@ -136,6 +145,7 @@ public class AutomaticShooterPowerCalibration {
         }
         powersTried.add(power);
         Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
+
 
         return power;
     }
