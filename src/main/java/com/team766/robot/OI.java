@@ -114,7 +114,7 @@ public class OI extends Procedure {
 				isCross = !isCross;
 			}
 
-			
+		// Test shooting using 	
 		if(joystick2.getButton(1)){
 			//Robot.shooter.shoot(1, 1);
 			try {
@@ -127,6 +127,7 @@ public class OI extends Procedure {
 			//Robot.shooter.shoot(0,0);
 		}
 
+		//Button to press if you want to start a calibration session (so like a new distance)
 		if(joystick2.getButtonPressed(2)){
 			try {
 				Robot.shooter.startNewCalibrationDistanceSession(context);
@@ -135,7 +136,7 @@ public class OI extends Procedure {
 				e.printStackTrace();
 			}
 		}
-
+		// Button to press if the ball went long
 		if(joystick2.getButtonPressed(3)){
 			try {
 				Robot.shooter.inputDataFromShot(false, true, context);
@@ -144,7 +145,7 @@ public class OI extends Procedure {
 				e.printStackTrace();
 			}
 		}
-
+		// Button to press if the ball went short
 		if(joystick2.getButtonPressed(4)){
 			try {
 				Robot.shooter.inputDataFromShot(false, false, context);
@@ -153,7 +154,7 @@ public class OI extends Procedure {
 				e.printStackTrace();
 			}
 		}
-
+		// Button to press if the ball went in
 		if(joystick2.getButtonPressed(5)){
 			try {
 				Robot.shooter.inputDataFromShot(true, false, context);
@@ -162,7 +163,7 @@ public class OI extends Procedure {
 				e.printStackTrace();
 			}
 		}
-
+		//Send data to file
 		if(joystick2.getButtonPressed(6)){
 			Robot.shooter.resetCalibrationAndStoreDataInFine();
 		}

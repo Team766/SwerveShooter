@@ -18,8 +18,8 @@ public class Shooter extends Mechanism {
 
 
 
-
-	static AutomaticShooterPowerCalibration calibration;
+	// create calibration object, this is static so it can be used all over? I dont know why I put it this but it gets really unhappy when I make it unstatic so imma just leave it.
+	static AutomaticShooterPowerCalibration calibration; 
 
 	private double lastSpeed = 0;
 	public Shooter(){
