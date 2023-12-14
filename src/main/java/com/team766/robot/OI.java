@@ -116,11 +116,56 @@ public class OI extends Procedure {
 
 			
 		if(joystick2.getButton(1)){
-			Robot.shooter.shoot(1, 1);
+			//Robot.shooter.shoot(1, 1);
+			try {
+				Robot.shooter.testS(context);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else{
-			Robot.shooter.shoot(0,0);
+			//Robot.shooter.shoot(0,0);
 		}
 
+		if(joystick2.getButtonPressed(2)){
+			try {
+				Robot.shooter.startNewCalibrationDistanceSession(context);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(joystick2.getButtonPressed(3)){
+			try {
+				Robot.shooter.inputDataFromShot(false, true, context);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(joystick2.getButtonPressed(4)){
+			try {
+				Robot.shooter.inputDataFromShot(false, false, context);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(joystick2.getButtonPressed(5)){
+			try {
+				Robot.shooter.inputDataFromShot(true, false, context);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(joystick2.getButtonPressed(6)){
+			Robot.shooter.resetCalibrationAndStoreDataInFine();
+		}
 
 
 		}

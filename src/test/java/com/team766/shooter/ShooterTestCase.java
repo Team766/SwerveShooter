@@ -31,7 +31,7 @@ public class ShooterTestCase {
 	public static void setUp() throws Exception {
 
 		
-		calibration = new AutomaticShooterPowerCalibration(3);
+		calibration = new AutomaticShooterPowerCalibration(1);
 
 		//The powers we get back should model y = 0.15(2.5)^x
 		distancesToTest.add(0.5);

@@ -1,6 +1,7 @@
 package com.team766.ViSIONbase;
 
 import com.team766.framework.AprilTagErrorCode;
+import com.team766.framework.Context;
 import com.team766.robot.Robot;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -144,7 +145,7 @@ public class AutomaticShooterPowerCalibration {
 
         }
         powersTried.add(power);
-        Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
+        //Robot.shooter.shoot(power); //TODO: Make sure this runs for ample time so ball can actually be shot
 
 
         return power;
@@ -269,7 +270,7 @@ public class AutomaticShooterPowerCalibration {
             powersTried.clear();
             wasTooLong.clear();
             first = true;
-            return -1;
+            return 0;
         } else {
             ballWentIn = false;
 
